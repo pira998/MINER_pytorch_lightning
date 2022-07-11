@@ -5,14 +5,14 @@ from einops import rearrange
 patterns_reshape = { 
     'image': {
         'reshape': [
-            'h w c -> 1 c h w',
-            '1 c h w -> h w c',
-            '1 c (n2 p2) (n1 p1) -> (n2 n1) (p2 p1) c',
-            '(n2 p2) (n1 p1) c -> (n2 n1) (p2 p1) c',
-            '(n2 n1) (p2 p1) c -> 1 c (n2 p2) (n1 p1)',
-            '(n2 n1) -> 1 n2 n1',
-            '1 n2 n1 -> 1 (n2 p2) (n1 p1)',
-            '1 h w c -> 1 (h w) c'
+            'h w c -> 1 c h w',   # it will add one dimension to the end of the tensor
+            '1 c h w -> h w c',   # it will remove the dimension from the end of the tensor
+            '1 c (n2 p2) (n1 p1) -> (n2 n1) (p2 p1) c', # split into patches
+            '(n2 p2) (n1 p1) c -> (n2 n1) (p2 p1) c', # merge patches
+            '(n2 n1) (p2 p1) c -> 1 c (n2 p2) (n1 p1)', # split into blocks
+            '(n2 n1) -> 1 n2 n1', # merge blocks
+            '1 n2 n1 -> 1 (n2 p2) (n1 p1)', # split into patches
+            '1 h w c -> 1 (h w) c' 
         ],
         'mode': 'bilinear'
     },
